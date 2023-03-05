@@ -3,7 +3,7 @@
  *  314 Principles of Programming Languages  *
  *  Spring 2023                              *
  *  Student Version                          *
- *  Author:                                  *
+ *  Author: Rishik Sarkar                    *
  *********************************************
  */
 
