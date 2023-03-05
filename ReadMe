@@ -1,0 +1,4 @@
+The file "tests/bogus-program" contains an expression that uses only the '+' operator.
+This is not a valid tinyL program.
+
+You have to replace the call "expr()" in "program" by the correct actions.
