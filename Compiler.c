@@ -124,17 +124,29 @@ static int expr()
 		return reg;
 	case '-':
 		/* STUDENTS - BEGIN */
-
+		next_token();
+		left_reg = expr();
+		right_reg = expr();
+		reg = next_register();
+		CodeGen(SUB, left_reg, right_reg, reg);
  		/* STUDENTS - END */
 		return reg;
 	case '*':
 		/* STUDENTS - BEGIN */
-
+		next_token();
+		left_reg = expr();
+		right_reg = expr();
+		reg = next_register();
+		CodeGen(MUL, left_reg, right_reg, reg);
  		/* STUDENTS - END */
 		return reg;
 	case '/':
 		/* STUDENTS - BEGIN */
-
+		next_token();
+		left_reg = expr();
+		right_reg = expr();
+		reg = next_register();
+		CodeGen(DIV, left_reg, right_reg, reg);
  		/* STUDENTS - END */
 		return reg;
 	case 'a':
@@ -227,7 +239,12 @@ static void morestmts()
 {
 	switch (token) {
 	/* STUDENTS - BEGIN */
-
+	case ';':
+		next_token();
+		stmtlist();
+		break;
+	case '.':
+		return;
 	/* STUDENTS - END */
 	default:
 		ERROR("Illegal statment.  Current input symbol is %c\n", token);
@@ -238,7 +255,8 @@ static void morestmts()
 static void stmtlist()
 {
 	/* STUDENTS - BEGIN */
-
+	stmt();
+	morestmts();
 	/* STUDENTS - END */
 }
 
@@ -246,7 +264,14 @@ static void program()
 {
 	/* STUDENTS - BEGIN */
 
-        expr(); /* THIS IS BOGUS - NEEDS TO BE DELETED */
+	stmtlist();
+	switch (token) {
+	case '.':
+		return;
+	default:
+		ERROR("Illegal statment.  Current input symbol is %c\n", token);
+		exit(EXIT_FAILURE);
+	}
   
 	/* STUDENTS - END */
 
