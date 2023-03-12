@@ -21,31 +21,64 @@ Instruction *constant_folding(Instruction *head) {
 
 		/* STUDENTS - BEGIN */
 
-		Instruction *instr1 = head;
+		Instruction *current = head;
+		Instruction *prev = NULL;
+		Instruction *next = NULL;
 
-		while (instr1->next->next != NULL)
+		while (current != NULL)
 		{
-			Instruction *instr2 = instr1->next;
-			Instruction *instr3 = instr2->next;
-
-			if (instr1->opcode == LOADI && instr2->opcode == LOADI)
+			if (current->prev != NULL)
 			{
-				if (instr3->opcode == ADD)
-				{
-					Instruction *temp = NULL;
-					temp->opcode = LOADI;
-					temp->field1 = instr1->field1 + instr2->field1;
-					temp->field2 = instr3->field3;
+				prev = current->prev;
+			}
+			else 
+			{
+				current = current->next;
+				continue;
+			}
 
-					temp->prev = instr2;
-					temp->next = instr3->next;
-					free(instr3);
+			if (current->next != NULL)
+			{
+				next = current->next;
+			}
+			else 
+			{
+				current = current->next;
+				continue;
+			}
+
+			if (prev->opcode == LOADI && current->opcode == LOADI)
+			{
+				if (next->opcode == ADD)
+				{
+					int reg = next->field3;
+					next->opcode = LOADI;
+					next->field1 = prev->field1 + current->field1;
+					next->field2 = reg;
+					current = current->next;
+					continue;
+				}
+				else if (next->opcode == SUB)
+				{
+					int reg = next->field3;
+					next->opcode = LOADI;
+					next->field1 = prev->field1 - current->field1;
+					next->field2 = reg;
+					current = current->next;
+					continue;
+				}
+				else if (next->opcode == MUL)
+				{
+					int reg = next->field3;
+					next->opcode = LOADI;
+					next->field1 = prev->field1 * current->field1;
+					next->field2 = reg;
+					current = current->next;
+					continue;
 				}
 			}
 
-			printf("%d", instr1->field1);
-
-			instr1 = instr1->next;
+			current = current->next;
 		}
 
  		/* STUDENTS - END */
