@@ -40,6 +40,44 @@ int int_log2(int n) {
 Instruction *strength_reduction(Instruction *head) {
 
 		/* STUDENTS - BEGIN */
+		
+		// Skip loadI 1024 => r0
+		Instruction *current = head->next;
+
+		while (current != NULL)
+		{
+			// Check if current instruction is LOADI, and c is a power of 2 (and if current->next exists)
+			if ((current->opcode == LOADI && int_log2(current->field1) != -1) && (current->next != NULL))
+			{
+				Instruction *next = current->next;
+
+				if (next->opcode == MUL)
+				{
+					// Case where first field is from previous LOADI instruction
+					if (current->field2 == next->field1)
+					{
+						next->opcode = LSHIFTI;
+						next->field1 = int_log2(current->field1);
+					}
+					// Case where second field is from previous LOADI instruction
+					else if (current->field2 == next->field2)
+					{
+						next->opcode = LSHIFTI;
+						next->field2 = int_log2(current->field1);
+					}
+				}
+				else if (next->opcode == DIV)
+				{
+					if (current->field2 == next->field2)
+					{
+						next->opcode = RSHIFTI;
+						next->field2 = int_log2(current->field1);
+					}
+				}
+			}
+			
+			current = current->next;
+		}
 
  		/* STUDENTS - END */
 

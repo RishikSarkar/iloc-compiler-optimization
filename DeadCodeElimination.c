@@ -19,6 +19,10 @@ Instruction *dead_code_elimination(Instruction *head)
 
 		/* STUDENTS - BEGIN */
 		
+		Instruction *current = head->next;
+
+		
+
  		/* STUDENTS - END */
 
 	return head;

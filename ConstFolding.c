@@ -27,6 +27,7 @@ Instruction *constant_folding(Instruction *head) {
 
 		while (current != NULL)
 		{
+			// Check if there exists a previous instruction
 			if (current->prev != NULL)
 			{
 				prev = current->prev;
@@ -37,6 +38,7 @@ Instruction *constant_folding(Instruction *head) {
 				continue;
 			}
 
+			// Check if there exists an instruction after current
 			if (current->next != NULL)
 			{
 				next = current->next;
@@ -47,8 +49,10 @@ Instruction *constant_folding(Instruction *head) {
 				continue;
 			}
 
+			// Check if there are two LOADI instructions in a row (prev and current)
 			if (prev->opcode == LOADI && current->opcode == LOADI)
 			{
+				// Case where next instruction is ADD
 				if (next->opcode == ADD)
 				{
 					int reg = next->field3;
@@ -58,6 +62,7 @@ Instruction *constant_folding(Instruction *head) {
 					current = current->next;
 					continue;
 				}
+				// Case where next instruction is SUB
 				else if (next->opcode == SUB)
 				{
 					int reg = next->field3;
@@ -67,6 +72,7 @@ Instruction *constant_folding(Instruction *head) {
 					current = current->next;
 					continue;
 				}
+				// Case where next instruction is MUL
 				else if (next->opcode == MUL)
 				{
 					int reg = next->field3;
