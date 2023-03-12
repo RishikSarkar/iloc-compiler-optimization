@@ -14,10 +14,11 @@
 #include "Utils.h"
 
 
-Instruction *dead_code_elimination(Instruction *head) {
+Instruction *dead_code_elimination(Instruction *head) 
+{
 
 		/* STUDENTS - BEGIN */
-
+		
  		/* STUDENTS - END */
 
 	return head;

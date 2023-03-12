@@ -21,6 +21,33 @@ Instruction *constant_folding(Instruction *head) {
 
 		/* STUDENTS - BEGIN */
 
+		Instruction *instr1 = head;
+
+		while (instr1->next->next != NULL)
+		{
+			Instruction *instr2 = instr1->next;
+			Instruction *instr3 = instr2->next;
+
+			if (instr1->opcode == LOADI && instr2->opcode == LOADI)
+			{
+				if (instr3->opcode == ADD)
+				{
+					Instruction *temp = NULL;
+					temp->opcode = LOADI;
+					temp->field1 = instr1->field1 + instr2->field1;
+					temp->field2 = instr3->field3;
+
+					temp->prev = instr2;
+					temp->next = instr3->next;
+					free(instr3);
+				}
+			}
+
+			printf("%d", instr1->field1);
+
+			instr1 = instr1->next;
+		}
+
  		/* STUDENTS - END */
 
 	return head;
