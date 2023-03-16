@@ -53,7 +53,8 @@ Instruction *constant_folding(Instruction *head) {
 			if (prev->opcode == LOADI && current->opcode == LOADI)
 			{
 				// Case where next instruction is ADD
-				if (next->opcode == ADD)
+				if (next->opcode == ADD && ((next->field1 == prev->field2 && next->field2 == current->field2) 
+										|| (next->field1 == current->field2 && next->field2 == prev->field2)))
 				{
 					int reg = next->field3;
 					next->opcode = LOADI;
@@ -62,8 +63,8 @@ Instruction *constant_folding(Instruction *head) {
 					current = current->next;
 					continue;
 				}
-				// Case where next instruction is SUB
-				else if (next->opcode == SUB)
+				// Case where next instruction is SUB and LOADI registers appear in the same order as SUB registers
+				else if (next->opcode == SUB && (next->field1 == prev->field2 && next->field2 == current->field2))
 				{
 					int reg = next->field3;
 					next->opcode = LOADI;
@@ -72,8 +73,19 @@ Instruction *constant_folding(Instruction *head) {
 					current = current->next;
 					continue;
 				}
+				// Case where next instruction is SUB and LOADI registers appear in the opposite order as SUB registers
+				else if (next->opcode == SUB && (next->field1 == current->field2 && next->field2 == prev->field2))
+				{
+					int reg = next->field3;
+					next->opcode = LOADI;
+					next->field1 = current->field1 - prev->field1;
+					next->field2 = reg;
+					current = current->next;
+					continue;
+				}
 				// Case where next instruction is MUL
-				else if (next->opcode == MUL)
+				else if (next->opcode == MUL && ((next->field1 == prev->field2 && next->field2 == current->field2) 
+											|| (next->field1 == current->field2 && next->field2 == prev->field2)))
 				{
 					int reg = next->field3;
 					next->opcode = LOADI;

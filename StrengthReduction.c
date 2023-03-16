@@ -34,7 +34,7 @@ int int_log2(int n) {
 }
 
 /*
-* Will traverse instructions in groups of two, searching for a patten of LOADI and MUL | DIV instructions 
+* Will traverse instructions in pairs, searching for a patten of LOADI and MUL | DIV instructions 
 * where LOADI is a power of 2, and collapse these instructions into on shift operation of LSHIFTI | RSHIFTI
 */
 Instruction *strength_reduction(Instruction *head) {
