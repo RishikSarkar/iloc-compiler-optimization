@@ -1,0 +1,26 @@
+LIST OF TEST CASES FOR OPTIMIZATION PASSES
+03/26/2023
+
+
+Here are 15 ILOC test programs for project 1.
+
+All your passes should run correctly on these 15 test cases. If there is no opportunity for optimization,
+no optimization should be performed. 
+
+Here is a list of test cases with optimization opportunities for the three different passes.
+
+Strength reduction:
+test0.out, test3.out, test8.out, test9.out, test10.out, test12.out, test14.out
+
+Constant folding:
+test3.out, test4.out, test5.out, test8.out, test11.out, test14.out
+
+Dead code elimination:
+test0.out, test3.out, test4.out, test5.out, test6.out, test8.out, test10.out, test13.out
+
+
+Note: (1) test13.out is test11.out after constant folding
+      (2) test14.out requires input on command line: sim -i 1024 VALUE < test14.out
+      (3) The simulator "sim" uses out-of-order execution, so you cannot only rely on the reported
+          execution cycles to see whether your optimization was successful. You should inspect your
+	  unoptimized and optimized code.
